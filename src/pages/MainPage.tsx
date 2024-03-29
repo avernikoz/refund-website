@@ -1,18 +1,13 @@
 import { FC } from "react";
-import { Container } from "../components/Header/styles";
-import { useConnectWallet, useCurrentAccount, useWallets } from "@mysten/dapp-kit";
-import { RefundService } from "../services/RefundService";
 import { WalletRows } from "../components/WalletRows/WalletRows";
 import { whiteFontStyleHeading } from "../theme";
 import { FlexBlock } from "../styles";
 
 
 export const MainPage: FC = () => {
-    const wallets = useWallets();
-    const currentAccount = useCurrentAccount();
-    const { mutateAsync: connect } = useConnectWallet();
+    //const currentAccount = useCurrentAccount();
 
-    const checkEligibility = async () => {
+    /*const checkEligibility = async () => {
 
         if(currentAccount) {
             const refundService = RefundService.getInstance();
@@ -22,7 +17,7 @@ export const MainPage: FC = () => {
             });
             console.log('result', result);
         }
-    };
+    };*/
 
 
 
