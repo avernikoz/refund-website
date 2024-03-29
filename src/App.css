@@ -1,0 +1,18 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+body {
+  background-image: url('/aldrin-background.png');
+  background-size: 100% 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+hr {
+  background: white;
+  width: 20em;
+}
