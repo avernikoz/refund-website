@@ -20,8 +20,8 @@ export const MainPage: FC = () => {
     }
 
     useEffect(() => {
-        setBaseRefundAmount('10')
-        setBoostedRefundAmount('10')
+        setBaseRefundAmount(undefined)
+        setBoostedRefundAmount(undefined)
     }, [currentAccount]);
 
     const onNotAffected = () => {}
