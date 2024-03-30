@@ -68,7 +68,7 @@ export const BoostedRefund: FC<BoostedRefundParams> = ({amount, selectedAddress,
             <li>Then you should see that the bot created another public address, insert that address here and Check the validity</li>
         </ul>
         <CheckRinBotAddress ownerAddress={selectedAddress} onSuccess={rinBotAddressConfirmed} />
-        {rinbotAddress && <Button onClick={reclaim}>Reclaim {amount} SUI</Button>}
+        {rinbotAddress && <Button style={{margin: '0 auto'}} onClick={reclaim}>Reclaim {amount} SUI</Button>}
         {
             claimRefundStatus === 'success' &&
             <>
