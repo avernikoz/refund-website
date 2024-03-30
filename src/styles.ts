@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FlexBlockProps, TypographyProps } from "./types";
+import { FlexBlockProps, ThemeColors, TypographyProps } from "./types";
 
 export const Flex = styled.div`
   display: flex;
@@ -64,4 +64,12 @@ export const InlineTextSC = styled(TextSC).attrs({ as: 'span' })`
   margin: 0;
   cursor: ${(props) => (props.$needPointer ? 'pointer' : 'auto')};
   white-space: ${(props) => props.$whiteSpace};
+`;
+
+
+export const Card = styled.div<{ $background?: keyof ThemeColors }>`
+  background: ${props => props.theme.colors[props.$background || 'GR5']};
+  border-radius: ${props => props.theme.borderRadius.xs}px;
+  box-shadow: 12px 20px 0px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
 `;

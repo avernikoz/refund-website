@@ -3,6 +3,8 @@ import { obj, SUI_DENOMINATOR } from "./utils";
 import { getFullnodeUrl, SuiClient } from "@mysten/sui.js/client";
 import { bcs } from "@mysten/sui.js/bcs";
 import BigNumber from "bignumber.js";
+import { SUI_CLOCK_OBJECT_ID } from "@mysten/sui.js/utils";
+import { ObjectArg } from "./types";
 
 export class RefundService {
     public static SIMLATION_ACCOUNT_ADDRESS = "0xca9711c3de3ef474209ebd920b894e4d374ff09e210bc31cbd2d266f7bff90ca";
@@ -27,6 +29,20 @@ export class RefundService {
             this._instance = new RefundService();
         }
         return this._instance;
+    }
+
+    public claimRefundTransaction(tx: TransactionBlock, {
+        poolObjectId,
+        clock = SUI_CLOCK_OBJECT_ID
+    }: {
+        poolObjectId: ObjectArg;
+        clock?: ObjectArg;
+    }) { 
+        tx.moveCall({
+            target: `${RefundService.REFUND_PACKAGE_ADDRESS}::refund::claim_refund`,
+            arguments: [obj(tx, poolObjectId), obj(tx, clock)],
+            typeArguments: []
+        });
     }
 
     public async getClaimAmountNormal({
