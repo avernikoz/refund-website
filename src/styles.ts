@@ -74,3 +74,35 @@ export const Card = styled.div<{ $background?: keyof ThemeColors }>`
   backdrop-filter: blur(2px);
 `;
 
+export const PlainInput = styled.input`
+  border: none;
+  width: 100%;
+  font-size: 15px;
+  font-family: ${(props) => props.theme.fonts.primary};
+  outline: none;
+  color: ${(props) => props.theme.colors.D7};
+  &::placeholder {
+    color: ${(props) => props.theme.colors.GR1};
+  }
+`;
+
+export const ResponsiveFlex = styled(FlexBlock)`
+  flex-direction: row;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+
+export const Separator = styled.div`
+  height: 30em;
+  width: 2px;
+  margin-left: 1em;
+  margin-right: 1em;
+  @media (max-width: 768px) {
+    height: 2px;
+    width: 100%;
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+  background-color: #fff;
+`;

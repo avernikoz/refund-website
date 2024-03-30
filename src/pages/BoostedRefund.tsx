@@ -54,9 +54,21 @@ export const BoostedRefund: FC<BoostedRefundParams> = ({amount, selectedAddress,
         });
     }
 
-    return <FlexBlock>
+    return <FlexBlock $direction="column" style={{flex: 1}}>
+        <h4>
+        💸 <b>Boosted Refund</b>: Enjoy <i><b>150%</b></i> of your lost funds — <code>${amount}</code> <b>SUI</b>. 
+        In order to catch this opportunity you have to setup a wallet with our <a target="_blank" href='https://t.me/RINsui_bot'>RINBot</a> and follow these instructions:
+        </h4>
+        <ul style={{textAlign: 'left'}}>
+            <li><code>/start</code> the bot</li>
+            <li>Click on <code>Refund</code></li>
+            <li>Click on <code>Check Address</code></li>
+            <li>Insert your address (<code>{selectedAddress}</code>)</li>
+            <li>Click on <code>Continue</code></li>
+            <li>Then you should see that the bot created another public address, insert that address here and Check the validity</li>
+        </ul>
         <CheckRinBotAddress ownerAddress={selectedAddress} onSuccess={rinBotAddressConfirmed} />
-        <Button onClick={reclaim}>Reclaim {amount} SUI</Button>
+        {rinbotAddress && <Button onClick={reclaim}>Reclaim {amount} SUI</Button>}
         {
             claimRefundStatus === 'success' &&
             <>

@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Card, FlexBlock } from "../styles";
+import { Card, FlexBlock, ResponsiveFlex, Separator } from "../styles";
 import { WalletRows } from "../components/WalletRows/WalletRows";
 import { AccountRows } from "../components/AccountRows/AccountRows";
 import { CheckEligibility } from "./CheckEligibility";
@@ -20,8 +20,8 @@ export const MainPage: FC = () => {
     }
 
     useEffect(() => {
-        setBaseRefundAmount(undefined)
-        setBoostedRefundAmount(undefined)
+        setBaseRefundAmount('10')
+        setBoostedRefundAmount('10')
     }, [currentAccount]);
 
     const onNotAffected = () => {}
@@ -47,21 +47,27 @@ export const MainPage: FC = () => {
                 onNotAffected={onNotAffected} 
                 onFail={onCheckEligibilityFail} />
             }
-            {
-                baseRefundAmount &&
-                <BaseRefund 
-                    amount={baseRefundAmount} 
-                    onSuccess={baseRefundSuccess} 
-                    onFail={baseRefundFail} />
-            }
-            {
-                boostedRefundAmount && currentAccount &&
-                <BoostedRefund 
-                    amount={boostedRefundAmount}
-                    onSuccess={boostedRefundSuccess}
-                    onFail={boostedRefundFail} 
-                    selectedAddress={currentAccount.address} />
-            }
+            <ResponsiveFlex $justifyContent="space-evenly">
+                {
+                    baseRefundAmount &&
+                    <BaseRefund
+                        amount={baseRefundAmount} 
+                        onSuccess={baseRefundSuccess} 
+                        onFail={baseRefundFail} />
+                }
+                {baseRefundAmount && boostedRefundAmount && currentAccount &&
+                    <Separator />
+                }
+                {
+                    boostedRefundAmount && currentAccount &&
+                    <BoostedRefund 
+                        amount={boostedRefundAmount}
+                        onSuccess={boostedRefundSuccess}
+                        onFail={boostedRefundFail} 
+                        selectedAddress={currentAccount.address} />
+                }
+            </ResponsiveFlex>
+            
         </FlexBlock>
     </Card>
 }

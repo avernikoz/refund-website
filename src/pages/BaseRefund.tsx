@@ -41,8 +41,9 @@ export const BaseRefund: FC<BaseRefunParams> = ({amount, onSuccess, onFail}) => 
         setLastTxDigest(result.digest);
     }, [onFail, onSuccess, signAndExecuteTransactionBlock]);
 
-    return <FlexBlock>
-        <Button onClick={reclaim}>Reclaim {amount} SUI</Button>
+    return <FlexBlock $direction="column" style={{flex: 1}}>
+        <h3>💵 <b>Base Refund</b>: Receive <i><b>100%</b></i> of your lost funds — <code>${amount}</code> <b>SUI</b>.</h3> 
+        <Button style={{margin: '0 auto'}} onClick={reclaim}>Reclaim {amount} SUI</Button>
         {
             claimRefundStatus === 'success' &&
             <>

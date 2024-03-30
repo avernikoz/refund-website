@@ -4,6 +4,7 @@ type Alignment =
 | 'normal'
 | 'center'
 | 'flex-start'
+| 'space-evenly'
 | 'end'
 | 'flex-start'
 | 'flex-end'

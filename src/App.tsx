@@ -23,7 +23,7 @@ const App: React.FC<PropsWithChildren> = () => {
       defaultNetwork={'mainnet'}>
         <WalletProvider autoConnect>
           <AldrinThemeProvider>
-            <FlexBlock style={{height: 'calc(100vh - 10em)'}} $direction='column' $justifyContent='space-between'>
+            <FlexBlock style={{minHeight: 'calc(100vh)'}} $direction='column' $justifyContent='space-between'>
               <Header />
               <MainPage />
               <Footer />
