@@ -12,3 +12,18 @@ export type GenericArg = ObjectArg | PureArg | Array<ObjectArg> | Array<PureArg>
 
 export type TransactionResult = ReturnType<TransactionBlock["moveCall"]>;
 export type GetTransactionType = Promise<{ tx: TransactionBlock; txRes: TransactionResult }>;
+
+export type BoostedClaimCapType = {
+  data: {
+    objectId: string;
+    content: {
+      dataType: string;
+      type: string;
+      hasPublicTransfer: boolean;
+      fields: {
+        id: { id: string };
+        new_address: string;
+      };
+    };
+  };
+};
