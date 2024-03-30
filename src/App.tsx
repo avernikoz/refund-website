@@ -6,6 +6,8 @@ import { MainPage } from './pages/MainPage';
 import { Header } from './components/Header';
 import { getFullnodeUrl, SuiClient } from '@mysten/sui.js/client';
 import { AldrinThemeProvider } from './theme';
+import { Footer } from './components/Footer';
+import { FlexBlock } from './styles';
 
 const queryClient = new QueryClient();
 
@@ -21,8 +23,11 @@ const App: React.FC<PropsWithChildren> = () => {
       defaultNetwork={'mainnet'}>
         <WalletProvider autoConnect>
           <AldrinThemeProvider>
-            <Header />
-            <MainPage />
+            <FlexBlock style={{height: 'calc(100vh - 10em)'}} $direction='column' $justifyContent='space-between'>
+              <Header />
+              <MainPage />
+              <Footer />
+            </FlexBlock>
           </AldrinThemeProvider>
         </WalletProvider>
       </SuiClientProvider>

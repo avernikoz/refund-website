@@ -73,3 +73,4 @@ export const Card = styled.div<{ $background?: keyof ThemeColors }>`
   box-shadow: 12px 20px 0px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(2px);
 `;
+

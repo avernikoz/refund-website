@@ -62,7 +62,7 @@ export const MainPage: FC = () => {
                 }
             }
         })();
-    }, [currentAccount]);
+    }, [currentAccount, disconnect]);
 
     return <FlexBlock $direction="column">
         {
