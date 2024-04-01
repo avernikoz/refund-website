@@ -4,7 +4,7 @@ import { RefundService } from "../services/RefundService";
 import { FlexBlock, PlainInput } from "../styles";
 import { TransactionBlock } from "@mysten/sui.js/transactions";
 import { useSignAndExecuteTransactionBlock } from "@mysten/dapp-kit";
-import { getSuiVisionTransactionLink, isTransactionSuccessful } from "../services/utils";
+import { getSuiVisionTransactionLink, isTransactionSuccessful, truncateAddress } from "../services/utils";
 
 
 const refundService = RefundService.getInstance();
@@ -63,9 +63,9 @@ export const CheckRinBotAddress: FC<{ownerAddress: string, onSuccess: (rinBotAdd
             <span>RinBot wallet address</span>
             <PlainInput style={{margin: '0 auto'}} onChange={addressFieldChange} type="text" />
             <Button style={{margin: '0 auto'}} type="submit">Check validity</Button>
-            {isValid && <h4>✅<br/> The address <code>{rinBotAddress}</code> appear as RINBot address</h4>}
-            {isValid === false && rinBotAddress.length > 0 && !claimCapNotAssociatedWithObj && <h4>❌<br/> The address {rinBotAddress} doesn't appear as a valid address, please ensure to follow all the steps above.</h4>}
-            {isValid === false && rinBotAddress.length > 0 && claimCapNotAssociatedWithObj && <h4>❌<br/> The address {rinBotAddress} doesn't have the capabilities to redeem, if you followed the above steps and you see this message, please click on <code>Reset Capabilities</code> and retry</h4>}
+            {isValid && <h4>✅<br/> The address <code>{truncateAddress(rinBotAddress)}</code> appear as RINBot address</h4>}
+            {isValid === false && rinBotAddress.length > 0 && !claimCapNotAssociatedWithObj && <h4>❌<br/> The address {truncateAddress(rinBotAddress)} doesn't appear as a valid address, please ensure to follow all the steps above.</h4>}
+            {isValid === false && rinBotAddress.length > 0 && claimCapNotAssociatedWithObj && <h4>❌<br/> The address {truncateAddress(rinBotAddress)} doesn't have the capabilities to redeem, if you followed the above steps and you see this message, please click on <code>Reset Capabilities</code> and retry</h4>}
             {isValid === false && rinBotAddress.length > 0 && claimCapNotAssociatedWithObj && <Button onClick={() => resetCapability(claimCapNotAssociatedWithObj)} style={{margin: '0 auto'}} type="submit">Reset Capabilities</Button>}
             {burnTxStatus === 'success' && lastTxDigest && <h4>✅<br/> The capabilities has been reset, retry with the above steps and recheck the validity (<a href={getSuiVisionTransactionLink(lastTxDigest)}>TX</a>)</h4>}
             {burnTxStatus === 'success' && !lastTxDigest && <h4>✅<br/> The capabilities has been reset, retry with the above steps and recheck the validity</h4>}

@@ -14,6 +14,7 @@ export const AccountRows = () => {
 		<FlexBlock $direction="row" $justifyContent="center" style={{ paddingBottom: "2em" }}>
             {accounts.map((account) => (
                 <Button
+                    key={account.address}
                     style={{width: '10em', justifyItems: 'center'}}
                     className={account.address === currentAccount?.address ? 'selected' : ''}
                     onClick={() => {
