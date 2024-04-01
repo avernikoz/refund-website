@@ -13,7 +13,7 @@ export const Container = styled.footer`
     flex: 1;
   }
 
-  h4 {
+  h3 {
     display: none;
     padding: 0 20px;
     text-align: center;
@@ -25,7 +25,7 @@ export const Container = styled.footer`
   }
 
   @media (min-width: ${(props) => props.theme.breakpoints.sm}px) {
-    h4 {
+    h3 {
       display: inline;
     }
   }
