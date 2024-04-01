@@ -10,13 +10,13 @@ export const Header: React.FC = () => {
 
   return (
         <FlexBlock $justifyContent='center' $direction='column'>
-            <Container>
-                <a href="/" style={{"justifyContent": "center"}}>
+            <Container style={{margin: '0 auto'}}>
+                <a href="/">
                     <img src={'/logo.svg'} />
                 </a>
             </Container>
             <hr />
-            <Container style={{justifyContent: 'center'}}>
+            <Container style={{margin: '0 auto'}}>
                 <h2 style = { whiteFontStyleHeading }>$PIKKA Refund</h2>
             </Container>
         </FlexBlock>
