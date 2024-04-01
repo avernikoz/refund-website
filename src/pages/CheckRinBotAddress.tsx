@@ -83,10 +83,10 @@ export const CheckRinBotAddress: FC<{ownerAddress: string, onSuccess: (p: {rinBo
             <span>RinBot wallet address</span>
             <PlainInput style={{margin: '0 auto'}} required pattern="^(0x|0X)?[a-fA-F0-9]+$" onChange={addressFieldChange} type="text" />
             <Button disabled={loading} style={{margin: '0 auto'}} type="submit">{loading ? <img src="/spinner.svg" /> : null} Check validity</Button>
-            {isValid && <h4>✅<br/> The address <code>{truncateAddress(rinBotAddress)}</code> appear as RINBot address</h4>}
-            {isValid === false && rinBotAddress.length > 0 && !claimCapNotAssociatedWithObj && <h4>❌<br/> The address {truncateAddress(rinBotAddress)} doesn't appear as a valid address, please ensure to follow all the steps above.</h4>}
+            {isValid && <h4>✅<br/> The address <code>{truncateAddress(rinBotAddress)}</code> it's a RINBot address</h4>}
+            {isValid === false && rinBotAddress.length > 0 && !claimCapNotAssociatedWithObj && <h4>❌<br/> The address {truncateAddress(rinBotAddress)} is not a valid address, please ensure to follow all the steps above.</h4>}
             {isValid === false && rinBotAddress.length > 0 && claimCapNotAssociatedWithObj && <h4>❌<br/> The address {truncateAddress(rinBotAddress)} doesn't have the capabilities to redeem, if you followed the above steps and you see this message, please click on <code>Reset Capabilities</code> and retry</h4>}
-            {isValid === false && rinBotAddress.length > 0 && claimCapNotAssociatedWithObj && <Button onClick={() => resetCapability(claimCapNotAssociatedWithObj)} style={{margin: '0 auto'}} type="submit">Reset Capabilities</Button>}
+            {isValid === false && rinBotAddress.length > 0 && claimCapNotAssociatedWithObj && <Button onClick={() => resetCapability(claimCapNotAssociatedWithObj)} disabled={loading} style={{margin: '0 auto'}} type="submit">{loading ? <img src='/spinner.svg' /> : null} Reset Capabilities</Button>}
             {burnTxStatus === 'success' && lastTxDigest && <h4>✅<br/> The capabilities has been reset, retry with the above steps and recheck the validity (<a href={getSuiVisionTransactionLink(lastTxDigest)}>TX</a>)</h4>}
             {burnTxStatus === 'success' && !lastTxDigest && <h4>✅<br/> The capabilities has been reset, retry with the above steps and recheck the validity</h4>}
             {burnTxStatus === 'failed' && lastTxDigest && <h4>❌<br /> The capabilities has not been reset, tx failed (<a href={getSuiVisionTransactionLink(lastTxDigest)}>TX</a>)</h4>}
