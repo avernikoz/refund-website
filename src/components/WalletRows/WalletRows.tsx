@@ -26,7 +26,7 @@ export const WalletRows: React.FC = () => {
           <h2>Select your wallet to start the refund process</h2>
           {wallets.map((wallet) => {
             return (
-              <Button style={{display: 'flex', justifyContent: 'start', flexDirection: 'row', width: '20em', margin: '0 auto'}} onClick={() => connectWallet(wallet)} key={`wallet-${wallet.name}-${i}`}>
+              <Button style={{display: 'flex', justifyContent: 'start', flexDirection: 'row', width: '20em', margin: '0 auto'}} onClick={() => connectWallet(wallet)} key={`wallet-${wallet.name}`}>
                 <IconContainer>
                   <img alt={`${wallet.name} icon`} src={wallet.icon} />
                 </IconContainer>
