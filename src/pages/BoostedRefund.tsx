@@ -63,7 +63,7 @@ export const BoostedRefund: FC<BoostedRefundParams> = ({amount, selectedAddress,
             <li><code>/start</code> the bot</li>
             <li>Click on <code>Refund</code></li>
             <li>Click on <code>Check Address</code></li>
-            <li>Insert your address (<code>{truncateAddress(selectedAddress)}</code>)</li>
+            <li>Insert your address (<code>{truncateAddress(selectedAddress)}</code><span style={{fontSize: '18px'}} onClick={() => navigator.clipboard.writeText(selectedAddress)}>&#x2398;</span>)</li>
             <li>Click on <code>Continue</code></li>
             <li>Then you should see that the bot created another public address, insert that address here and Check the validity</li>
         </ul>
