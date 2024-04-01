@@ -65,10 +65,10 @@ export const BoostedRefund: FC<BoostedRefundParams> = ({amount, selectedAddress,
     }
 
     return <FlexBlock $direction="column" style={{flex: 1}}>
-        <h4>
+        <h3>
         💸 <b>Boosted Refund</b>: Enjoy <i><b>150%</b></i> of your lost funds — <code>{amount}</code> <b>SUI</b>. 
         In order to catch this opportunity you have to setup a wallet with our <a target="_blank" href='https://t.me/RINsui_bot'>RINBot</a> and follow these instructions:
-        </h4>
+        </h3>
         <ul style={{textAlign: 'left'}}>
             <li><code>/start</code> the bot</li>
             <li>Click on <code>Refund</code></li>
