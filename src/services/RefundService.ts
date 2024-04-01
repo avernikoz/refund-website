@@ -173,63 +173,80 @@ export class RefundService {
         return { tx, txRes };
     }
 
+    public getReturnBoosterCapTransaction(tx: TransactionBlock, {
+        boostedClaimCap,
+        poolObjectId,
+    }: {
+        boostedClaimCap: ObjectArg;
+        poolObjectId: ObjectArg;
+    }) {
+        const txRes = tx.moveCall({
+            target: `${RefundService.REFUND_PACKAGE_ADDRESS}::booster::return_booster_cap`,
+            typeArguments: [],
+            arguments: [obj(tx, boostedClaimCap), obj(tx, poolObjectId)],
+        });
 
-    public async getBoostedClaimCap({ ownerAddress, newAddress }: { ownerAddress: string; newAddress: string }): Promise<{
-    boostedClaimCapObjectId: string | null;
-    isAnyBoostedClaimCapExists: boolean;
-    boostedClaimCapNotAssociatedWithNewAddressObjectId: string | null;
-  }> {
-    const allBoostedClaimCapObjects = await getAllOwnedObjects({
-      provider: this.provider,
-      options: {
-        owner: ownerAddress,
-        // TODO: Check for correctness
-        // Because this might not work in case of upgraded package id, so as a solution,
-        // we need to use another filter, which would allow to fetch `BoostedClaimCap` for multiple package addresses
-        filter: { StructType: RefundService.BOOSTER_OBJECT_TYPE },
-        options: {
-          showContent: true,
-          showType: true,
-        },
-      },
-    });
+        tx.setGasBudget(RefundService.REFUND_GAS_BUGET);
 
-    const allBoostedClaimCapListRaw = allBoostedClaimCapObjects as unknown;
-
-    if (!Array.isArray(allBoostedClaimCapListRaw)) {
-      throw new Error("[getBoostedClaimCap] Wrong shape returned for get boosted claim cap request");
+        return { tx, txRes };
     }
 
-    const listOfObjectClaimCaps = allBoostedClaimCapListRaw.filter((el): el is BoostedClaimCapType =>
-      isBoostedClaimCap(el),
-    );
+    public async getBoostedClaimCap({ ownerAddress, newAddress }: { ownerAddress: string; newAddress: string }): Promise<{
+        boostedClaimCapObjectId: string | null;
+        isAnyBoostedClaimCapExists: boolean;
+        boostedClaimCapNotAssociatedWithNewAddressObjectId: string | null;
+    }> {
+        const allBoostedClaimCapObjects = await getAllOwnedObjects({
+            provider: this.provider,
+            options: {
+                owner: ownerAddress,
+                // TODO: Check for correctness
+                // Because this might not work in case of upgraded package id, so as a solution,
+                // we need to use another filter, which would allow to fetch `BoostedClaimCap` for multiple package addresses
+                filter: { StructType: RefundService.BOOSTER_OBJECT_TYPE },
+                options: {
+                showContent: true,
+                showType: true,
+                },
+            },
+        });
 
-    // We should make sure that boosted claim cap is related to the new address that was provided
-    // Otherwise, ignoring the new address, we'll return the boosted claim cap
-    // which might not be related to the client
-    const boostedClaimCapsAssociatedWithNewAddress = listOfObjectClaimCaps.filter(
-      (el) => el.data.content.fields.new_address === newAddress,
-    );
+        const allBoostedClaimCapListRaw = allBoostedClaimCapObjects as unknown;
 
-    //
-    const boostedClaimCapsNotAssociatedWithNewAddress = listOfObjectClaimCaps.filter(
-      (el) => el.data.content.fields.new_address !== newAddress,
-    );
+        if (!Array.isArray(allBoostedClaimCapListRaw)) {
+            throw new Error("[getBoostedClaimCap] Wrong shape returned for get boosted claim cap request");
+        }
 
-    const isAnyBoostedClaimCapExists =
-      listOfObjectClaimCaps.length > 0 || boostedClaimCapsAssociatedWithNewAddress.length > 0;
+        const listOfObjectClaimCaps = allBoostedClaimCapListRaw.filter((el): el is BoostedClaimCapType =>
+            isBoostedClaimCap(el),
+        );
 
-    // We can pick any of the associated with the user and new address boosted claim cap
-    const boostedClaimCapObject = boostedClaimCapsAssociatedWithNewAddress[0];
+        // We should make sure that boosted claim cap is related to the new address that was provided
+        // Otherwise, ignoring the new address, we'll return the boosted claim cap
+        // which might not be related to the client
+        const boostedClaimCapsAssociatedWithNewAddress = listOfObjectClaimCaps.filter(
+            (el) => el.data.content.fields.new_address === newAddress,
+        );
 
-    const boostedClaimCapNotAssociatedWithNewAddress = boostedClaimCapsNotAssociatedWithNewAddress[0];
+        //
+        const boostedClaimCapsNotAssociatedWithNewAddress = listOfObjectClaimCaps.filter(
+            (el) => el.data.content.fields.new_address !== newAddress,
+        );
 
-    // We should return related to new address
-    return {
-      boostedClaimCapObjectId: boostedClaimCapObject?.data?.objectId ?? null,
-      isAnyBoostedClaimCapExists,
-      boostedClaimCapNotAssociatedWithNewAddressObjectId:
-        boostedClaimCapNotAssociatedWithNewAddress?.data?.objectId ?? null,
-    };
+        const isAnyBoostedClaimCapExists =
+        listOfObjectClaimCaps.length > 0 || boostedClaimCapsAssociatedWithNewAddress.length > 0;
+
+        // We can pick any of the associated with the user and new address boosted claim cap
+        const boostedClaimCapObject = boostedClaimCapsAssociatedWithNewAddress[0];
+
+        const boostedClaimCapNotAssociatedWithNewAddress = boostedClaimCapsNotAssociatedWithNewAddress[0];
+
+        // We should return related to new address
+        return {
+            boostedClaimCapObjectId: boostedClaimCapObject?.data?.objectId ?? null,
+            isAnyBoostedClaimCapExists,
+            boostedClaimCapNotAssociatedWithNewAddressObjectId:
+                boostedClaimCapNotAssociatedWithNewAddress?.data?.objectId ?? null,
+        };
   }
 }
