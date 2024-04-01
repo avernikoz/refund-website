@@ -21,6 +21,7 @@ export const BoostedRefund: FC<BoostedRefundParams> = ({amount, selectedAddress,
     const [claimRefundStatus, setClaimRefundStatus] = useState<'failed' | 'success' | undefined>(undefined);
     const [lastTxDigest, setLastTxDigest] = useState<string | undefined>(undefined);    
     const [rinbotAddress, setRinbotAddress] = useState<{rinBotAddress: string, objectCapId: string} | undefined>();
+    const [loading, setLoading] = useState(false);
 
     const claimBoosted = useCallback(async () => {
         const tx = new TransactionBlock();
@@ -31,20 +32,29 @@ export const BoostedRefund: FC<BoostedRefundParams> = ({amount, selectedAddress,
             userRinbotRefundDestinationAddress: rinbotAddress?.rinBotAddress
         });
         tx.setGasBudget(RefundService.REFUND_GAS_BUGET);
-        const result = await signAndExecuteTransactionBlock({
-            transactionBlock: tx,
-            options: {
-                showEffects: true
+        setLoading(true);
+        try {
+            const result = await signAndExecuteTransactionBlock({
+                transactionBlock: tx,
+                options: {
+                    showEffects: true
+                }
+            });
+            if(isTransactionSuccessful(result)) {
+                setClaimRefundStatus('success');            
+                onSuccess();
+            }else {
+                setClaimRefundStatus('failed');            
+                onFail();
             }
-        });
-        if(isTransactionSuccessful(result)) {
-            setClaimRefundStatus('success');            
-            onSuccess();
-        }else {
+            setLastTxDigest(result.digest);
+        }catch(e) {
             setClaimRefundStatus('failed');            
             onFail();
+            console.error(e);
+        }finally {
+            setLoading(false);
         }
-        setLastTxDigest(result.digest);
     }, [onFail, onSuccess, signAndExecuteTransactionBlock, rinbotAddress?.objectCapId, rinbotAddress?.rinBotAddress]);
 
     const rinBotAddressConfirmed = (rinBotAddress: string, objectCapId: string) => {
@@ -68,7 +78,7 @@ export const BoostedRefund: FC<BoostedRefundParams> = ({amount, selectedAddress,
             <li>Then you should see that the bot created another public address, insert that address here and Check the validity</li>
         </ul>
         <CheckRinBotAddress ownerAddress={selectedAddress} onSuccess={rinBotAddressConfirmed} />
-        {rinbotAddress && <Button style={{margin: '0 auto'}} onClick={claimBoosted}>Claim {amount} SUI</Button>}
+        {rinbotAddress && <Button disabled={loading} style={{margin: '0 auto'}} onClick={claimBoosted}>{loading ? <img src="/spinner.svg" /> : null} Claim {amount} SUI</Button>}
         {
             claimRefundStatus === 'success' &&
             <>

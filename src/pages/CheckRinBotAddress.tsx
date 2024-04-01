@@ -16,6 +16,7 @@ export const CheckRinBotAddress: FC<{ownerAddress: string, onSuccess: (rinBotAdd
     const [burnTxStatus, setBurnTxStatus] = useState<'failed' | 'success' | undefined>(undefined);
     const [lastTxDigest, setLastTxDigest] = useState<string | undefined>(undefined);    
     const { mutateAsync: signAndExecuteTransactionBlock } = useSignAndExecuteTransactionBlock();
+    const [loading, setLoading] = useState(false);
 
     const addressFieldChange: ChangeEventHandler<HTMLInputElement> = (event) => {
         setRinBotAddress(event.target.value);
@@ -23,13 +24,20 @@ export const CheckRinBotAddress: FC<{ownerAddress: string, onSuccess: (rinBotAdd
 
     const checkValidity: React.FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault();
-        const {boostedClaimCapObjectId, boostedClaimCapNotAssociatedWithNewAddressObjectId} = await refundService.getBoostedClaimCap({ownerAddress, newAddress: rinBotAddress});
-        if(boostedClaimCapNotAssociatedWithNewAddressObjectId) {
-            setClaimCapNotAssociatedWithObj(boostedClaimCapNotAssociatedWithNewAddressObjectId);
-        }
-        setIsValid(!!boostedClaimCapObjectId);
-        if(boostedClaimCapObjectId && rinBotAddress) {
-            onSuccess(rinBotAddress, boostedClaimCapObjectId);
+        setLoading(true);
+        try {
+            const {boostedClaimCapObjectId, boostedClaimCapNotAssociatedWithNewAddressObjectId} = await refundService.getBoostedClaimCap({ownerAddress, newAddress: rinBotAddress});
+            if(boostedClaimCapNotAssociatedWithNewAddressObjectId) {
+                setClaimCapNotAssociatedWithObj(boostedClaimCapNotAssociatedWithNewAddressObjectId);
+            }
+            setIsValid(!!boostedClaimCapObjectId);
+            if(boostedClaimCapObjectId && rinBotAddress) {
+                onSuccess(rinBotAddress, boostedClaimCapObjectId);
+            }
+        }catch(e) {
+            console.error(e);
+        }finally {
+            setLoading(false);
         }
         return false;
     }
@@ -62,7 +70,7 @@ export const CheckRinBotAddress: FC<{ownerAddress: string, onSuccess: (rinBotAdd
         <FlexBlock $direction="column" style={{gap: '1em'}}>
             <span>RinBot wallet address</span>
             <PlainInput style={{margin: '0 auto'}} onChange={addressFieldChange} type="text" />
-            <Button style={{margin: '0 auto'}} type="submit">Check validity</Button>
+            <Button disabled={loading} style={{margin: '0 auto'}} type="submit">{loading ? <img src="/spinner.svg" /> : null} Check validity</Button>
             {isValid && <h4>✅<br/> The address <code>{truncateAddress(rinBotAddress)}</code> appear as RINBot address</h4>}
             {isValid === false && rinBotAddress.length > 0 && !claimCapNotAssociatedWithObj && <h4>❌<br/> The address {truncateAddress(rinBotAddress)} doesn't appear as a valid address, please ensure to follow all the steps above.</h4>}
             {isValid === false && rinBotAddress.length > 0 && claimCapNotAssociatedWithObj && <h4>❌<br/> The address {truncateAddress(rinBotAddress)} doesn't have the capabilities to redeem, if you followed the above steps and you see this message, please click on <code>Reset Capabilities</code> and retry</h4>}

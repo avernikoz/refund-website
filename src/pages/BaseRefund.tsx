@@ -18,6 +18,7 @@ export const BaseRefund: FC<BaseRefunParams> = ({amount, onSuccess, onFail}) => 
     const { mutateAsync: signAndExecuteTransactionBlock } = useSignAndExecuteTransactionBlock();
     const [claimRefundStatus, setClaimRefundStatus] = useState<'failed' | 'success' | undefined>(undefined);
     const [lastTxDigest, setLastTxDigest] = useState<string | undefined>(undefined);    
+    const [loading, setLoading] = useState(false);
 
     const claimBase = useCallback(async () => {
         const tx = new TransactionBlock();
@@ -25,25 +26,35 @@ export const BaseRefund: FC<BaseRefunParams> = ({amount, onSuccess, onFail}) => 
             poolObjectId: RefundService.REFUND_POOL_OBJECT_ID
         });
         tx.setGasBudget(RefundService.REFUND_GAS_BUGET);
-        const result = await signAndExecuteTransactionBlock({
-            transactionBlock: tx,
-            options: {
-                showEffects: true
+        setLoading(true);
+        try {
+            const result = await signAndExecuteTransactionBlock({
+                transactionBlock: tx,
+                options: {
+                    showEffects: true
+                }
+            });
+            if(isTransactionSuccessful(result)) {
+                setClaimRefundStatus('success');            
+                onSuccess();
+            }else {
+                setClaimRefundStatus('failed');            
+                onFail();
             }
-        });
-        if(isTransactionSuccessful(result)) {
-            setClaimRefundStatus('success');            
-            onSuccess();
-        }else {
-            setClaimRefundStatus('failed');            
+            setLastTxDigest(result.digest);
+        }catch(e) {
+            console.error(e);
+            setClaimRefundStatus('failed');
             onFail();
+        }finally {
+            setLoading(false);
         }
-        setLastTxDigest(result.digest);
+        
     }, [onFail, onSuccess, signAndExecuteTransactionBlock]);
 
     return <FlexBlock $direction="column" style={{flex: 1}}>
         <h3>💵 <b>Base Refund</b>: Receive <i><b>100%</b></i> of your lost funds — <code>{amount}</code> <b>SUI</b>.</h3> 
-        <Button style={{margin: '0 auto'}} onClick={claimBase}>Claim {amount} SUI</Button>
+        <Button disabled={loading} style={{margin: '0 auto'}} onClick={claimBase}>{loading ? <img src="/spinner.svg" /> : null} Claim {amount} SUI</Button>
         {
             claimRefundStatus === 'success' &&
             <>
