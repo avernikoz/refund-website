@@ -49,22 +49,22 @@ export const MainPage: FC = () => {
             }
             <ResponsiveFlex $justifyContent="space-evenly">
                 {
-                    baseRefundAmount &&
-                    <BaseRefund
-                        amount={baseRefundAmount} 
-                        onSuccess={baseRefundSuccess} 
-                        onFail={baseRefundFail} />
-                }
-                {baseRefundAmount && boostedRefundAmount && currentAccount &&
-                    <Separator />
-                }
-                {
                     boostedRefundAmount && currentAccount &&
                     <BoostedRefund 
                         amount={boostedRefundAmount}
                         onSuccess={boostedRefundSuccess}
                         onFail={boostedRefundFail} 
                         selectedAddress={currentAccount.address} />
+                }
+                {baseRefundAmount && boostedRefundAmount && currentAccount &&
+                    <Separator />
+                }
+                {
+                    baseRefundAmount &&
+                    <BaseRefund
+                        amount={baseRefundAmount} 
+                        onSuccess={baseRefundSuccess} 
+                        onFail={baseRefundFail} />
                 }
             </ResponsiveFlex>
             
