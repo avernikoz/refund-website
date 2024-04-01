@@ -19,7 +19,7 @@ export const CheckRinBotAddress: FC<{ownerAddress: string, onSuccess: (p: {rinBo
     const [loading, setLoading] = useState(false);
 
     const addressFieldChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-        setRinBotAddress(event.target.value);
+        setRinBotAddress(event.target.value.trim());
     };
 
     const checkValidity: React.FormEventHandler<HTMLFormElement> = async (e) => {
