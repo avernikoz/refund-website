@@ -12,7 +12,7 @@ export const Header: React.FC = () => {
         <FlexBlock $justifyContent='center' $direction='column'>
             <Container style={{margin: '0 auto'}}>
                 <a href="/">
-                    <img src={'/logo.svg'} />
+                    <img style={{margin: '0 auto'}} src={'/logo.svg'} />
                 </a>
             </Container>
             <hr />
