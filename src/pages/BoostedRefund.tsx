@@ -22,7 +22,7 @@ export const BoostedRefund: FC<BoostedRefundParams> = ({amount, selectedAddress,
     const [lastTxDigest, setLastTxDigest] = useState<string | undefined>(undefined);    
     const [rinbotAddress, setRinbotAddress] = useState<{rinBotAddress: string, objectCapId: string} | undefined>();
 
-    const reclaim = useCallback(() => async () => {
+    const claimBoosted = useCallback(async () => {
         const tx = new TransactionBlock();
         if(!rinbotAddress) throw new Error('No Verified RinBot address');
         refundService.claimRefundBoosted(tx, {
@@ -56,7 +56,7 @@ export const BoostedRefund: FC<BoostedRefundParams> = ({amount, selectedAddress,
 
     return <FlexBlock $direction="column" style={{flex: 1}}>
         <h4>
-        💸 <b>Boosted Refund</b>: Enjoy <i><b>150%</b></i> of your lost funds — <code>${amount}</code> <b>SUI</b>. 
+        💸 <b>Boosted Refund</b>: Enjoy <i><b>150%</b></i> of your lost funds — <code>{amount}</code> <b>SUI</b>. 
         In order to catch this opportunity you have to setup a wallet with our <a target="_blank" href='https://t.me/RINsui_bot'>RINBot</a> and follow these instructions:
         </h4>
         <ul style={{textAlign: 'left'}}>
@@ -68,7 +68,7 @@ export const BoostedRefund: FC<BoostedRefundParams> = ({amount, selectedAddress,
             <li>Then you should see that the bot created another public address, insert that address here and Check the validity</li>
         </ul>
         <CheckRinBotAddress ownerAddress={selectedAddress} onSuccess={rinBotAddressConfirmed} />
-        {rinbotAddress && <Button style={{margin: '0 auto'}} onClick={reclaim}>Reclaim {amount} SUI</Button>}
+        {rinbotAddress && <Button style={{margin: '0 auto'}} onClick={claimBoosted}>Claim {amount} SUI</Button>}
         {
             claimRefundStatus === 'success' &&
             <>
