@@ -81,7 +81,7 @@ export const CheckRinBotAddress: FC<{ownerAddress: string, onSuccess: (p: {rinBo
     return <form onSubmit={checkValidity}>
         <FlexBlock $direction="column" style={{gap: '1em'}}>
             <span>RinBot wallet address</span>
-            <PlainInput style={{margin: '0 auto'}} required pattern="^(0x|0X)?[a-fA-F0-9]+$" onChange={addressFieldChange} type="text" />
+            <PlainInput style={{margin: '0 auto'}} required pattern="^(0x|0X)?[a-fA-F0-9]+$" minLength={66} maxLength={66} onChange={addressFieldChange} type="text" />
             <Button disabled={loading} style={{margin: '0 auto'}} type="submit">{loading ? <img src="/spinner.svg" /> : null} Check validity</Button>
             {isValid && <h4>✅<br/> The address <code>{truncateAddress(rinBotAddress)}</code> it's a RINBot address</h4>}
             {isValid === false && rinBotAddress.length > 0 && !claimCapNotAssociatedWithObj && <h4>❌<br/> The address {truncateAddress(rinBotAddress)} is not a valid address, please ensure to follow all the steps above.</h4>}
