@@ -19,7 +19,7 @@ export const BaseRefund: FC<BaseRefunParams> = ({amount, onSuccess, onFail}) => 
     const [claimRefundStatus, setClaimRefundStatus] = useState<'failed' | 'success' | undefined>(undefined);
     const [lastTxDigest, setLastTxDigest] = useState<string | undefined>(undefined);    
 
-    const claimBase = useCallback(() => async () => {
+    const claimBase = useCallback(async () => {
         const tx = new TransactionBlock();
         refundService.claimRefundTransaction(tx, {
             poolObjectId: RefundService.REFUND_POOL_OBJECT_ID

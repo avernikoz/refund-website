@@ -22,7 +22,7 @@ export const BoostedRefund: FC<BoostedRefundParams> = ({amount, selectedAddress,
     const [lastTxDigest, setLastTxDigest] = useState<string | undefined>(undefined);    
     const [rinbotAddress, setRinbotAddress] = useState<{rinBotAddress: string, objectCapId: string} | undefined>();
 
-    const claimBoosted = useCallback(() => async () => {
+    const claimBoosted = useCallback(async () => {
         const tx = new TransactionBlock();
         if(!rinbotAddress) throw new Error('No Verified RinBot address');
         refundService.claimRefundBoosted(tx, {
