@@ -28,7 +28,7 @@ export const CheckRinBotAddress: FC<{ownerAddress: string, onSuccess: (rinBotAdd
             setClaimCapNotAssociatedWithObj(boostedClaimCapNotAssociatedWithNewAddressObjectId);
         }
         setIsValid(!!boostedClaimCapObjectId);
-        if(boostedClaimCapObjectId) {
+        if(boostedClaimCapObjectId && rinBotAddress) {
             onSuccess(rinBotAddress, boostedClaimCapObjectId);
         }
         return false;

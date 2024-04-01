@@ -78,6 +78,7 @@ export const PlainInput = styled.input`
   border: none;
   width: 100%;
   font-size: 15px;
+  background: #fff;
   font-family: ${(props) => props.theme.fonts.primary};
   outline: none;
   color: ${(props) => props.theme.colors.D7};
