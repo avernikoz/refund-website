@@ -2,6 +2,8 @@ import { FC, useEffect, useState } from "react";
 import { RefundService } from "../services/RefundService";
 import BigNumber from "bignumber.js";
 import { useCurrentAccount } from "@mysten/dapp-kit";
+import { FlexBlock } from "../styles";
+import { truncateAddress } from "../services/utils";
 
 interface CheckEligibilityParams {
     selectedAddress: string, 
@@ -16,6 +18,7 @@ const refundService = RefundService.getInstance();
 export const CheckEligibility: FC<CheckEligibilityParams> = ({selectedAddress, onAffected, onNotAffected, onFail}) => {
     const [isAffected, setIsAffected] = useState<boolean | undefined>(undefined);
     const currentAccount = useCurrentAccount();
+    const [loading, setLoading] = useState(false);
 
     const isTheWalletAffected = async (address: string) => {
         const {mist, sui} = await refundService.getClaimAmountNormal({
@@ -33,6 +36,7 @@ export const CheckEligibility: FC<CheckEligibilityParams> = ({selectedAddress, o
         (async () => {
             if(currentAccount) {
                 try {
+                    setLoading(true);
                     const {sui, affected, boostedSui } = await isTheWalletAffected(selectedAddress);
                     setIsAffected(affected);
                     if(affected) {
@@ -42,12 +46,17 @@ export const CheckEligibility: FC<CheckEligibilityParams> = ({selectedAddress, o
                     }
                 }catch(e) {
                     onFail();
+                }finally {
+                    setLoading(false);
                 }
             }
         })();
     }, [currentAccount]);
 
     return <>
+        {
+            loading && <FlexBlock $direction="row" $justifyContent="center"><h3> Checking {truncateAddress(selectedAddress)} eligibility... </h3> </FlexBlock>
+        }  
         {
             isAffected === false && 
             <>
