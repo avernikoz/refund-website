@@ -16,6 +16,7 @@ export const WalletRows: React.FC = () => {
     await connect({ wallet }, { onSuccess: (data) => console.debug(data) });
   }
 
+
   return (
     <>
         {wallets.length === 0 && <h1>No SUI wallet installed</h1>}
@@ -25,7 +26,7 @@ export const WalletRows: React.FC = () => {
           <h2>Select your wallet to start the refund process</h2>
           {wallets.map((wallet) => {
             return (
-              <Button style={{display: 'flex', justifyContent: 'start', flexDirection: 'row', width: '20em', margin: '0 auto'}} onClick={() => connectWallet(wallet)} key={`wallet-${wallet.name}`}>
+              <Button style={{display: 'flex', justifyContent: 'start', flexDirection: 'row', width: '20em', margin: '0 auto'}} onClick={() => connectWallet(wallet)} key={`wallet-${wallet.name}-${i}`}>
                 <IconContainer>
                   <img alt={`${wallet.name} icon`} src={wallet.icon} />
                 </IconContainer>
@@ -37,11 +38,11 @@ export const WalletRows: React.FC = () => {
         }
         {
           currentWallet.isConnected && 
-          <FlexBlock $direction='row' $justifyContent='center' style={{gap: '1em'}}>
+          <FlexBlock $direction='row' $justifyContent='center' style={{paddingLeft: '15px', gap: '1em', maxWidth: '100%', overflowX: 'auto'}}>
           {wallets.map((wallet) => {
             return (
-              <Button className={currentWallet.currentWallet.name === wallet.name ? 'selected' : ''} style={{width: '5em'}} onClick={() => connectWallet(wallet)} key={`wallet-${wallet.name}`}>
-                <img style={{width: '100%'}} alt={`${wallet.name} icon`} src={wallet.icon} />
+              <Button className={currentWallet.currentWallet.name === wallet.name ? 'selected' : ''} onClick={() => connectWallet(wallet)} key={`wallet-${wallet.name}`}>
+                <img style={{width: '25px'}} alt={`${wallet.name} icon`} src={wallet.icon} />
               </Button>
             );
           })}

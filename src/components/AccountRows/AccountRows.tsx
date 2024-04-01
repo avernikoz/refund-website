@@ -11,7 +11,7 @@ export const AccountRows = () => {
 	return (
         <>
         {accounts.length > 0 && <h2>Your accounts</h2>}
-		<FlexBlock $direction="row" $justifyContent="center" style={{ paddingBottom: "2em" }}>
+		<FlexBlock $direction="row" $justifyContent="center" style={{ paddingBottom: "2em", maxWidth: '100%', overflowX: 'auto' }}>
             {accounts.map((account) => (
                 <Button
                     key={account.address}
