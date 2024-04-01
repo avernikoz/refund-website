@@ -19,7 +19,7 @@ export const BaseRefund: FC<BaseRefunParams> = ({amount, onSuccess, onFail}) => 
     const [claimRefundStatus, setClaimRefundStatus] = useState<'failed' | 'success' | undefined>(undefined);
     const [lastTxDigest, setLastTxDigest] = useState<string | undefined>(undefined);    
 
-    const reclaim = useCallback(() => async () => {
+    const claimBase = useCallback(() => async () => {
         const tx = new TransactionBlock();
         refundService.claimRefundTransaction(tx, {
             poolObjectId: RefundService.REFUND_POOL_OBJECT_ID
@@ -42,8 +42,8 @@ export const BaseRefund: FC<BaseRefunParams> = ({amount, onSuccess, onFail}) => 
     }, [onFail, onSuccess, signAndExecuteTransactionBlock]);
 
     return <FlexBlock $direction="column" style={{flex: 1}}>
-        <h3>💵 <b>Base Refund</b>: Receive <i><b>100%</b></i> of your lost funds — <code>${amount}</code> <b>SUI</b>.</h3> 
-        <Button style={{margin: '0 auto'}} onClick={reclaim}>Reclaim {amount} SUI</Button>
+        <h3>💵 <b>Base Refund</b>: Receive <i><b>100%</b></i> of your lost funds — <code>{amount}</code> <b>SUI</b>.</h3> 
+        <Button style={{margin: '0 auto'}} onClick={claimBase}>Claim {amount} SUI</Button>
         {
             claimRefundStatus === 'success' &&
             <>
