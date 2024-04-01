@@ -85,6 +85,9 @@ export const PlainInput = styled.input`
   &::placeholder {
     color: ${(props) => props.theme.colors.GR1};
   }
+  @media (max-width: 768px) {
+    width: 90%
+  }
 `;
 
 export const ResponsiveFlex = styled(FlexBlock)`
@@ -106,4 +109,14 @@ export const Separator = styled.div`
     margin-bottom: 1em;
   }
   background-color: #fff;
+`;
+
+
+export const MainPageCard = styled(Card)`
+  padding: 2rem;
+
+  @media (max-width: 768px) {
+    padding-left: 0;
+    padding-right: 0;
+  }
 `;

@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Card, FlexBlock, ResponsiveFlex, Separator } from "../styles";
+import { Card, FlexBlock, MainPageCard, ResponsiveFlex, Separator } from "../styles";
 import { WalletRows } from "../components/WalletRows/WalletRows";
 import { AccountRows } from "../components/AccountRows/AccountRows";
 import { CheckEligibility } from "./CheckEligibility";
@@ -36,7 +36,7 @@ export const MainPage: FC = () => {
 
     const boostedRefundFail = () => {}
 
-    return <Card style={{padding: '2em'}}>
+    return <MainPageCard>
         <FlexBlock $direction="column">
             <WalletRows />
             <AccountRows />
@@ -69,5 +69,5 @@ export const MainPage: FC = () => {
             </ResponsiveFlex>
             
         </FlexBlock>
-    </Card>
+    </MainPageCard>
 }
