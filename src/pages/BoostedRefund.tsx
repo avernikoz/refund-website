@@ -45,7 +45,7 @@ export const BoostedRefund: FC<BoostedRefundParams> = ({amount, selectedAddress,
             onFail();
         }
         setLastTxDigest(result.digest);
-    }, [onFail, onSuccess, signAndExecuteTransactionBlock]);
+    }, [onFail, onSuccess, signAndExecuteTransactionBlock, rinbotAddress?.objectCapId, rinbotAddress?.rinBotAddress]);
 
     const rinBotAddressConfirmed = (rinBotAddress: string, objectCapId: string) => {
         setRinbotAddress({
