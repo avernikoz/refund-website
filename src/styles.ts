@@ -98,7 +98,7 @@ export const ResponsiveFlex = styled(FlexBlock)`
 `;
 
 export const Separator = styled.div`
-  height: 30em;
+  height: auto;
   width: 2px;
   margin-left: 1em;
   margin-right: 1em;
