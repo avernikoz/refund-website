@@ -14,7 +14,7 @@ export const Footer = () => {
             <img src='/socials/twitter.svg' />
           </a>
           <a
-              href="https://t.me/Aldrin_Labs"
+              href="https://t.me/rincels"
               target="_blank"
               rel="noopener noreferrer"
           >
