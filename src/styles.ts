@@ -104,7 +104,7 @@ export const Separator = styled.div`
   margin-right: 1em;
   @media (max-width: 768px) {
     height: 2px;
-    width: 100%;
+    width: 90%;
     margin-top: 1em;
     margin-bottom: 1em;
   }
