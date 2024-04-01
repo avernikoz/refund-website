@@ -9,7 +9,7 @@ import { getSuiVisionTransactionLink, isTransactionSuccessful, truncateAddress }
 
 const refundService = RefundService.getInstance();
 
-export const CheckRinBotAddress: FC<{ownerAddress: string, onSuccess: (rinBotAddress: string, objectCapId: string) => void}> = ({ownerAddress, onSuccess}) => {
+export const CheckRinBotAddress: FC<{ownerAddress: string, onSuccess: (p: {rinBotAddress: string, objectCapId: string} | undefined) => void}> = ({ownerAddress, onSuccess}) => {
     const [rinBotAddress, setRinBotAddress] = useState<string>('');
     const [isValid, setIsValid] = useState<boolean>();
     const [claimCapNotAssociatedWithObj, setClaimCapNotAssociatedWithObj] = useState<string | undefined>();
@@ -31,12 +31,15 @@ export const CheckRinBotAddress: FC<{ownerAddress: string, onSuccess: (rinBotAdd
                 setClaimCapNotAssociatedWithObj(boostedClaimCapNotAssociatedWithNewAddressObjectId);
             }
             setIsValid(!!boostedClaimCapObjectId);
-            if(boostedClaimCapObjectId && rinBotAddress) {
-                onSuccess(rinBotAddress, boostedClaimCapObjectId);
+            if(rinBotAddress && boostedClaimCapObjectId) {
+                onSuccess({rinBotAddress, objectCapId: boostedClaimCapObjectId});
+            }else {
+                onSuccess(undefined);
             }
         }catch(e) {
             console.error(e);
         }finally {
+            setBurnTxStatus(undefined);            
             setLoading(false);
         }
         return false;
@@ -50,20 +53,29 @@ export const CheckRinBotAddress: FC<{ownerAddress: string, onSuccess: (rinBotAdd
         });
 
         tx.setGasBudget(RefundService.REFUND_GAS_BUGET);
-        const txResult = await signAndExecuteTransactionBlock({
-            transactionBlock: tx,
-            options: {
-                showEffects: true
+        setLoading(true);
+        try {
+            const txResult = await signAndExecuteTransactionBlock({
+                transactionBlock: tx,
+                options: {
+                    showEffects: true
+                }
+            });
+            setIsValid(undefined);
+            setClaimCapNotAssociatedWithObj(undefined);
+            if(isTransactionSuccessful(txResult)) {
+                setBurnTxStatus('success');            
+            }else {
+                setBurnTxStatus('failed');            
             }
-        });
-        setIsValid(undefined);
-        setClaimCapNotAssociatedWithObj(undefined);
-        if(isTransactionSuccessful(txResult)) {
-            setBurnTxStatus('success');            
-        }else {
+            setLastTxDigest(txResult.digest);
+        }catch(e) {
+            console.error(e);
             setBurnTxStatus('failed');            
+        }finally {
+            setIsValid(undefined);
+            setLoading(false);
         }
-        setLastTxDigest(txResult.digest);
     }
 
     return <form onSubmit={checkValidity}>

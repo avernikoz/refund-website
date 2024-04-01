@@ -57,11 +57,8 @@ export const BoostedRefund: FC<BoostedRefundParams> = ({amount, selectedAddress,
         }
     }, [onFail, onSuccess, signAndExecuteTransactionBlock, rinbotAddress?.objectCapId, rinbotAddress?.rinBotAddress]);
 
-    const rinBotAddressConfirmed = (rinBotAddress: string, objectCapId: string) => {
-        setRinbotAddress({
-            rinBotAddress,
-            objectCapId
-        });
+    const rinBotAddressConfirmed = (p: {rinBotAddress: string, objectCapId: string} | undefined) => {
+        setRinbotAddress(p);
     }
 
     return <FlexBlock $direction="column" style={{flex: 1}}>
