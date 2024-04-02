@@ -8,10 +8,10 @@ import { BoostedClaimCapType, ObjectArg } from "./types";
 
 export class RefundService {
     public static SIMLATION_ACCOUNT_ADDRESS = "0xca9711c3de3ef474209ebd920b894e4d374ff09e210bc31cbd2d266f7bff90ca";
-    public static REFUND_PACKAGE_ADDRESS = "0xe3ea571ce175591b8466957da9f62152d166adaec92b94ef2a1771c93d8d3e68";
+    public static REFUND_PACKAGE_ADDRESS = "0x2843d7add326ac31e71c75954b79a059aa13456946d26422a9fd20f75e06b468";
     public static REFUND_PACKAGE_ADDRESS_READ = "";
-    public static REFUND_POOL_OBJECT_ID = "0xa1c293fb1f299934ea6879ad155989393406e71ce2f906e9a01ce2a1870705de";
-    public static REFUND_POOL_PUBLISHER_OBJECT_ID = "0x67835c696d231a13f16b86c2d6af0641b4a80f7ade6c9f86ab58736c6aad46a5";
+    public static REFUND_POOL_OBJECT_ID = "0x82544a2f83c6ed1c1092d4b0e92837e2c3bd983228dd6529da632070b6657a97";
+    public static REFUND_POOL_PUBLISHER_OBJECT_ID = "0xf3f6708de5137be44e2dde8a2fd33e7ebd64398d55312414c7b0e3309367e378";
     public static REFUND_BOOSTED_CLAIM_CAP_STRUCT_TYPE_NAME = "BoostedClaimCap";
     public static REFUND_MODULE_NAME = "refund";
     public static REFUND_BOOSTED_MODULE_NAME = "booster";
