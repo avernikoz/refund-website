@@ -2,7 +2,7 @@ import { Context } from "@netlify/edge-functions";
 
 export const RESTRICTED_COUNTRY_CODES_LIST = ["CU", "KP", "IR", "SY", "CO"];
 
-export const RESTRICTED_REGIONS_LIST = ["CRIMEA", "DONETSK", "LUHANSK"];
+export const RESTRICTED_REGIONS_LIST = ["Crimea", "Donetsk", "Luhansk"];
 
 export default async (request: Request, context: Context) => {
   const countryCode = context.geo?.country?.code ?? ""
