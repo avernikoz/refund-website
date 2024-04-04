@@ -13,7 +13,7 @@ export default async (request: Request, context: Context) => {
 
   if (isRestrictedCountry || isRestrictedRegion) {
     return new Response(
-      `Sorry, Aldrin Refund website is not available in your country.\n If you think your access is restricted by mistake or have another question, please reach out to us.`,
+      `Sorry, Aldrin Refund Website is not available in your country.\n If you think your access is restricted by mistake or have another question, please reach out to us.`,
       {
         headers: { "content-type": "text/html" },
         status: 451,
