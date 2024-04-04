@@ -5,9 +5,10 @@ import { AccountRows } from "../components/AccountRows/AccountRows";
 import { CheckEligibility } from "./CheckEligibility";
 import { useCurrentAccount } from "@mysten/dapp-kit";
 import { BaseRefund } from "./BaseRefund";
+import { withRegionCheck } from "../components/RestrictedRegion/hoc/withRegionCheck";
 
 
-export const MainPage: FC = () => {
+const MainPageComponent: FC = () => {
     const currentAccount = useCurrentAccount();
     const [baseRefundAmount, setBaseRefundAmount] = useState<string | undefined>();
     //const [boostedRefundAmount, setBoostedRefundAmount] = useState<string | undefined>();
@@ -69,3 +70,5 @@ export const MainPage: FC = () => {
         </FlexBlock>
     </MainPageCard>
 }
+
+export const MainPage = withRegionCheck(MainPageComponent)
